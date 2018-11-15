@@ -1,20 +1,14 @@
 FROM node:8
 ENV NODE_ENV "production"
-
-# Create app directory
+ENV PORT 8079
+EXPOSE 8079
+# Prepare app directory
 WORKDIR /usr/src/app
+COPY package.json /usr/src/app/
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+RUN npm install
 
-RUN npm install --only=production
-# If you are building your code for production
-# RUN npm install --only=production
+COPY . /usr/src/app
 
-# Bundle app source
-COPY . .
-
-EXPOSE 8080
-CMD [ "npm", "start" ]
+# Start the app
+CMD ["/usr/local/bin/npm", "start"]
